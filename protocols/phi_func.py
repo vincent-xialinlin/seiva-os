@@ -1,24 +1,20 @@
 # protocols/phi_func.py
 
-def compute_phi(L: dict) -> str:
+def compute_phi(L):
     """
-    Φ(L, t)：根据语言结构向量计算协同态等级 L1-L5
-    - 简化线性权重公式：Φ = 0.3*Sd + 0.3*Lh + 0.2*Pc + 0.2*Ic
+    返回协同效率分值 (Φ_score) + 协同等级标签 (Φ_label)
     """
-    score = (
-        0.3 * L["Sd"] +
-        0.3 * L["Lh"] +
-        0.2 * L["Pc"] +
-        0.2 * L["Ic"]
-    )
+    score = 0.25 * L['Sd'] + 0.25 * L['Lh'] + 0.25 * L['Pc'] + 0.25 * L['Ic']
 
-    if score < 0.4:
-        return "L1"
-    elif score < 0.55:
-        return "L2"
+    if score < 0.3:
+        label = "L1"
+    elif score < 0.5:
+        label = "L2"
     elif score < 0.7:
-        return "L3"
-    elif score < 0.85:
-        return "L4"
+        label = "L3"
+    elif score < 0.9:
+        label = "L4"
     else:
-        return "L5"
+        label = "L5"
+
+    return score, label
